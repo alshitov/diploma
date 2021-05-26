@@ -4,7 +4,15 @@
   "description": "Recommendation on use of Blockchain technology for organizing Electronic Document Management systems",
   "main": "src/index.ts",
   "scripts": {
-    "start": "nodemon src/index.ts",
+    "start": "PORT=3000 nodemon src/index.ts",
+    "sn1": "PORT=3001 nodemon src/index.ts",
+    "sn2": "PORT=3002 nodemon src/index.ts",
+    "sn3": "PORT=3003 nodemon src/index.ts",
+    "sn4": "PORT=3004 nodemon src/index.ts",
+    "sn5": "PORT=3005 nodemon src/index.ts",
+    "sv1": "PORT=3010 nodemon src/index.ts",
+    "sv2": "PORT=3011 nodemon src/index.ts",
+    "sv3": "PORT=3012 nodemon src/index.ts",
     "build": "tsc"
   },
   "repository": {
@@ -15,12 +23,15 @@
   "author": "Alexander Shitov<wutobcawa@gmail.com>",
   "license": "ISC",
   "dependencies": {
+    "@types/uuid": "^8.3.0",
     "cors": "^2.8.5",
     "debug": "^4.3.1",
     "express": "^4.17.1",
     "express-winston": "^4.1.0",
     "helmet": "^4.4.1",
+    "js-sha256": "^0.9.0",
     "nodemon": "^2.0.7",
+    "uuid": "^8.3.2",
     "winston": "^3.3.3"
   },
   "devDependencies": {
