@@ -1,6 +1,6 @@
 import { Transaction } from './Transaction'
 import { Sign } from './Sign'
-import { stringToHex, MerkleTree } from './utils'
+import { Merkle, hexlify } from '../lib'
 import { sha256 } from 'js-sha256'
 
 export class Block {
@@ -38,14 +38,14 @@ export class Block {
   }
 
   private calculateHash (): string {
-    const txsTreeRoot = new MerkleTree(this.txs.map(t => t.toHexString())).getRoot()
-    const signsTreeRoot = new MerkleTree(this.signs.map(s => s.toHexString())).getRoot()
+    const txsTreeRoot = new Merkle.MerkleTree(this.txs.map(t => t.toHexString())).getRoot()
+    const signsTreeRoot = new Merkle.MerkleTree(this.signs.map(s => s.toHexString())).getRoot()
     const result = sha256(
-      stringToHex(this.version) +
+      hexlify.stringToHex(this.version) +
       this.previousHash +
       txsTreeRoot +
       signsTreeRoot +
-      stringToHex(this.createdAt.toISOString())
+      hexlify.stringToHex(this.createdAt.toISOString())
     )
     this.hash = result
     return result

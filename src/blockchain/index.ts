@@ -1,4 +1,2 @@
-export { Block } from './Block'
-export { Chain } from './Chain'
-export { Sign } from './Sign'
-export { Transaction } from './Transaction'
+export * as Models from './models'
+export * from './lib'

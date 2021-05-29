@@ -1,4 +1,4 @@
-import { objectToHex } from './utils'
+import { hexlify } from '../lib'
 
 export class Sign {
   private readonly sign: string
@@ -12,7 +12,7 @@ export class Sign {
   }
 
   toHexString (): string {
-    return objectToHex({
+    return hexlify.objectToHex({
       sign: this.sign,
       validatorAddress: this.validatorAddress,
       createdAt: this.createdAt

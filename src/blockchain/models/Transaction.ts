@@ -1,5 +1,5 @@
 import { v4 as uuid } from 'uuid'
-import { objectToHex } from './utils'
+import { hexlify } from '../lib'
 
 type TransactionType = 'CREATE' | 'EDIT' | 'READY' | 'REQUEST'
 
@@ -26,7 +26,7 @@ class TransactionBase {
   }
 
   toHexString (): string {
-    return objectToHex({
+    return hexlify.objectToHex({
       id: this.id,
       documentId: this.documentId,
       senderAddress: this.senderAddress,
@@ -57,7 +57,7 @@ export class TransactionCreate extends TransactionBase {
   }
 
   toHexString (): string {
-    return objectToHex({
+    return hexlify.objectToHex({
       id: this.id,
       documentId: this.documentId,
       senderAddress: this.senderAddress,
@@ -95,7 +95,7 @@ export class TransactionReady extends TransactionBase {
   }
 
   toHexString (): string {
-    return objectToHex({
+    return hexlify.objectToHex({
       id: this.id,
       documentId: this.documentId,
       senderAddress: this.senderAddress,

@@ -1,5 +1,6 @@
 import { MerkleNode } from './Node'
 import { sha256 } from 'js-sha256'
+import { expectDefined } from '../../../helpers'
 
 type AuditTrail = Array<{ hash: string | undefined, isRight: boolean }>
 
@@ -30,19 +31,19 @@ export class MerkleTree {
     for (let { hash: anHash, isRight } of auditNodes) {
       currentProof = sha256(isRight ? currentProof + anHash : anHash + currentProof)
     }
-    return currentProof === trail[trail.length - 1].hash
+    return currentProof === trail[trail.length - 1]?.hash
   }
 
   private calculateRoot (nodes: MerkleNode[]): string {
     const nodesCount = nodes.length
     if (nodesCount === 1) {
-      return nodes[0].getHash()
+      return expectDefined(nodes[0]).getHash()
     } else {
       const parents = []
       let i = 0
       while (i < nodesCount) {
-        const left = nodes[i]
-        const right = (i + 1) < nodesCount ? nodes[i + 1] : left
+        const left = expectDefined(nodes[i])
+        const right = (i + 1) < nodesCount ? expectDefined(nodes[i + 1]) : left
         const parent = new MerkleNode(sha256(left.getHash() + right.getHash()))
         parent.setLeftChild(left)
         parent.setrightChild(right)
