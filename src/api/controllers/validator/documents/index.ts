@@ -1,2 +1,2 @@
 export * from './get'
-export * from './redirect'
+export * from './prepare'

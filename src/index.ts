@@ -1,9 +1,9 @@
 import { app } from './app'
-import { expectDefined } from './helpers/index'
+import { expectDefined, isValidator } from './helpers'
 
 const HOST = '127.0.0.1'
 const PORT = parseInt(expectDefined(process.env.PORT))
 
-app.listen(PORT, HOST, (): void => {
-  console.log(`*** Node is up at ${HOST}:${PORT} ***`)
+app.listen(PORT, HOST, async () => {
+  await console.log(`\n*** ${isValidator ? 'Validator' : 'Node'} is up at ${HOST}:${PORT} ***\n`)
 })

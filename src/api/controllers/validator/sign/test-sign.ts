@@ -1,0 +1,367 @@
+import { Request, Response } from 'express'
+import { chain } from '../../../../app'
+import { network } from '../../../../api'
+import axios from 'axios'
+import { ElGamal, Models } from '../../../../blockchain'
+import { dumpChain } from '../../../../helpers'
+
+const data = {
+  block: {
+    "version":"0.0.1",
+    "txs":[
+       {
+          "id":"82141b80-a911-4ef2-9718-941693e5b8f4",
+          "documentId":"3f472f6a-dde7-46b0-85c8-7177300af52d",
+          "senderAddress":"127.0.0.1:3000",
+          "receiverAddress":"127.0.0.1:3001",
+          "type":"CREATE",
+          "createdAt":"2021-06-01T17:38:35.960Z",
+          "validatorAddress":"127.0.0.1:3010",
+          "documentType":"LIMITED",
+          "strategy":[
+             "127.0.0.1:3002"
+          ]
+       },
+       {
+          "id":"bd443d61-7384-4c3a-bfed-c07b80f9c282",
+          "documentId":"3f472f6a-dde7-46b0-85c8-7177300af52d",
+          "senderAddress":"127.0.0.1:3002",
+          "receiverAddress":"127.0.0.1:3010",
+          "type":"READY",
+          "createdAt":"2021-06-01T17:38:36.027Z",
+          "documentMap":{
+             "0":[
+                "127.0.0.1:3002",
+                "127.0.0.1:3001"
+             ],
+             "1":[
+                "127.0.0.1:3001",
+                "127.0.0.1:3002"
+             ]
+          }
+       },
+       {
+          "id":"ec14aafa-83aa-4a56-95ed-171cf16a893f",
+          "documentId":"17dfcff3-df5b-48f3-8c40-c8804c84d021",
+          "senderAddress":"127.0.0.1:3000",
+          "receiverAddress":"127.0.0.1:3001",
+          "type":"CREATE",
+          "createdAt":"2021-06-01T17:41:58.672Z",
+          "validatorAddress":"127.0.0.1:3010",
+          "documentType":"LIMITED",
+          "strategy":[
+             "127.0.0.1:3002"
+          ]
+       },
+       {
+          "id":"3fa38e51-c033-43ce-b0fe-415170fa9558",
+          "documentId":"17dfcff3-df5b-48f3-8c40-c8804c84d021",
+          "senderAddress":"127.0.0.1:3002",
+          "receiverAddress":"127.0.0.1:3010",
+          "type":"READY",
+          "createdAt":"2021-06-01T17:41:58.732Z",
+          "documentMap":{
+             "0":[
+                "127.0.0.1:3002",
+                "127.0.0.1:3001"
+             ],
+             "1":[
+                "127.0.0.1:3001",
+                "127.0.0.1:3002"
+             ]
+          }
+       },
+       {
+          "id":"a2b85ea7-785f-45d2-bcfa-493e78fa35a0",
+          "documentId":"0e73befc-495b-4437-8424-bd78d31be7a0",
+          "senderAddress":"127.0.0.1:3000",
+          "receiverAddress":"127.0.0.1:3001",
+          "type":"CREATE",
+          "createdAt":"2021-06-01T17:45:37.998Z",
+          "validatorAddress":"127.0.0.1:3010",
+          "documentType":"LIMITED",
+          "strategy":[
+             "127.0.0.1:3002"
+          ]
+       },
+       {
+          "id":"27acfb15-cd41-42bd-be56-9952851341a1",
+          "documentId":"0e73befc-495b-4437-8424-bd78d31be7a0",
+          "senderAddress":"127.0.0.1:3002",
+          "receiverAddress":"127.0.0.1:3010",
+          "type":"READY",
+          "createdAt":"2021-06-01T17:45:38.058Z",
+          "documentMap":{
+             "0":[
+                "127.0.0.1:3002",
+                "127.0.0.1:3001"
+             ],
+             "1":[
+                "127.0.0.1:3002",
+                "127.0.0.1:3001"
+             ]
+          }
+       },
+       {
+          "id":"9524f6b5-eda3-4f88-af40-52214c252629",
+          "documentId":"dd832d40-2863-4b8c-afd8-8311d6bfa797",
+          "senderAddress":"127.0.0.1:3000",
+          "receiverAddress":"127.0.0.1:3001",
+          "type":"CREATE",
+          "createdAt":"2021-06-01T17:51:38.787Z",
+          "validatorAddress":"127.0.0.1:3010",
+          "documentType":"LIMITED",
+          "strategy":[
+             "127.0.0.1:3002"
+          ]
+       },
+       {
+          "id":"05b5d6bf-8966-46cf-8420-507419f03858",
+          "documentId":"dd832d40-2863-4b8c-afd8-8311d6bfa797",
+          "senderAddress":"127.0.0.1:3002",
+          "receiverAddress":"127.0.0.1:3010",
+          "type":"READY",
+          "createdAt":"2021-06-01T17:51:38.864Z",
+          "documentMap":{
+             "0":[
+                "127.0.0.1:3001",
+                "127.0.0.1:3002"
+             ],
+             "1":[
+                "127.0.0.1:3002",
+                "127.0.0.1:3001"
+             ]
+          }
+       },
+       {
+          "id":"3c3a8d32-86ee-4c75-a913-1927604887c3",
+          "documentId":"26eae4cd-eaa6-4715-8d6b-ce82664a6135",
+          "senderAddress":"127.0.0.1:3000",
+          "receiverAddress":"127.0.0.1:3001",
+          "type":"CREATE",
+          "createdAt":"2021-06-01T17:53:32.207Z",
+          "validatorAddress":"127.0.0.1:3010",
+          "documentType":"LIMITED",
+          "strategy":[
+             "127.0.0.1:3002"
+          ]
+       },
+       {
+          "id":"d4e4aac6-2bf9-42e1-92ef-cda29103fcc4",
+          "documentId":"26eae4cd-eaa6-4715-8d6b-ce82664a6135",
+          "senderAddress":"127.0.0.1:3002",
+          "receiverAddress":"127.0.0.1:3010",
+          "type":"READY",
+          "createdAt":"2021-06-01T17:53:32.271Z",
+          "documentMap":{
+             "0":[
+                "127.0.0.1:3001",
+                "127.0.0.1:3002"
+             ],
+             "1":[
+                "127.0.0.1:3002",
+                "127.0.0.1:3001"
+             ]
+          }
+       },
+       {
+          "id":"6b45af9a-e87f-42ac-bd82-cc9406ee2154",
+          "documentId":"63f48db2-ff5b-4a04-9971-8893fb128e83",
+          "senderAddress":"127.0.0.1:3000",
+          "receiverAddress":"127.0.0.1:3001",
+          "type":"CREATE",
+          "createdAt":"2021-06-01T17:54:10.673Z",
+          "validatorAddress":"127.0.0.1:3010",
+          "documentType":"LIMITED",
+          "strategy":[
+             "127.0.0.1:3002"
+          ]
+       },
+       {
+          "id":"9eb90e18-86fb-4431-ac14-79dfc13c2ec2",
+          "documentId":"63f48db2-ff5b-4a04-9971-8893fb128e83",
+          "senderAddress":"127.0.0.1:3002",
+          "receiverAddress":"127.0.0.1:3010",
+          "type":"READY",
+          "createdAt":"2021-06-01T17:54:10.756Z",
+          "documentMap":{
+             "0":[
+                "127.0.0.1:3001",
+                "127.0.0.1:3002"
+             ],
+             "1":[
+                "127.0.0.1:3002",
+                "127.0.0.1:3001"
+             ]
+          }
+       },
+       {
+          "id":"10ab2e3b-17d8-46ca-bee1-f4646293a4f0",
+          "documentId":"d7bc50d4-30c4-4d23-9c52-05bf1cbf54bc",
+          "senderAddress":"127.0.0.1:3000",
+          "receiverAddress":"127.0.0.1:3001",
+          "type":"CREATE",
+          "createdAt":"2021-06-01T17:54:53.920Z",
+          "validatorAddress":"127.0.0.1:3010",
+          "documentType":"LIMITED",
+          "strategy":[
+             "127.0.0.1:3002"
+          ]
+       },
+       {
+          "id":"63e30932-9553-48bc-84e8-18822dfa56bc",
+          "documentId":"d7bc50d4-30c4-4d23-9c52-05bf1cbf54bc",
+          "senderAddress":"127.0.0.1:3002",
+          "receiverAddress":"127.0.0.1:3010",
+          "type":"READY",
+          "createdAt":"2021-06-01T17:54:53.988Z",
+          "documentMap":{
+             "0":[
+                "127.0.0.1:3001",
+                "127.0.0.1:3002"
+             ],
+             "1":[
+                "127.0.0.1:3002",
+                "127.0.0.1:3001"
+             ]
+          }
+       },
+       {
+          "id":"ba6483f9-5ee2-4af4-9076-eccadd53e50b",
+          "documentId":"acf90946-dc5e-411d-b4f5-95165aecf2ab",
+          "senderAddress":"127.0.0.1:3000",
+          "receiverAddress":"127.0.0.1:3001",
+          "type":"CREATE",
+          "createdAt":"2021-06-01T17:56:02.783Z",
+          "validatorAddress":"127.0.0.1:3010",
+          "documentType":"LIMITED",
+          "strategy":[
+             "127.0.0.1:3002"
+          ]
+       },
+       {
+          "id":"ba6483f9-5ee2-4af4-9076-eccadd53e50b",
+          "documentId":"acf90946-dc5e-411d-b4f5-95165aecf2ab",
+          "senderAddress":"127.0.0.1:3000",
+          "receiverAddress":"127.0.0.1:3001",
+          "type":"CREATE",
+          "createdAt":"2021-06-01T17:56:02.783Z",
+          "validatorAddress":"127.0.0.1:3010",
+          "documentType":"LIMITED",
+          "strategy":[
+             "127.0.0.1:3002"
+          ]
+       },
+       {
+          "id":"90fe8c59-a7a7-4415-8b2c-6334c3dcbd6c",
+          "documentId":"acf90946-dc5e-411d-b4f5-95165aecf2ab",
+          "senderAddress":"127.0.0.1:3002",
+          "receiverAddress":"127.0.0.1:3010",
+          "type":"READY",
+          "createdAt":"2021-06-01T17:56:02.849Z",
+          "documentMap":{
+             "0":[
+                "127.0.0.1:3001",
+                "127.0.0.1:3001",
+                "127.0.0.1:3002"
+             ],
+             "1":[
+                "127.0.0.1:3001",
+                "127.0.0.1:3001",
+                "127.0.0.1:3002"
+             ]
+          }
+       },
+       {
+          "id":"90fe8c59-a7a7-4415-8b2c-6334c3dcbd6c",
+          "documentId":"acf90946-dc5e-411d-b4f5-95165aecf2ab",
+          "senderAddress":"127.0.0.1:3002",
+          "receiverAddress":"127.0.0.1:3010",
+          "type":"READY",
+          "createdAt":"2021-06-01T17:56:02.849Z",
+          "documentMap":{
+             "0":[
+                "127.0.0.1:3001",
+                "127.0.0.1:3001",
+                "127.0.0.1:3002"
+             ],
+             "1":[
+                "127.0.0.1:3001",
+                "127.0.0.1:3001",
+                "127.0.0.1:3002"
+             ]
+          }
+       },
+       {
+          "id":"2aedd759-56cc-4b40-870a-09db5b2670db",
+          "documentId":"9652c2e9-9f37-4f11-b18f-633c83954b6d",
+          "senderAddress":"127.0.0.1:3000",
+          "receiverAddress":"127.0.0.1:3001",
+          "type":"CREATE",
+          "createdAt":"2021-06-01T18:07:13.455Z",
+          "validatorAddress":"127.0.0.1:3010",
+          "documentType":"LIMITED",
+          "strategy":[
+             "127.0.0.1:3002"
+          ]
+       },
+       {
+          "id":"7cc812bb-9802-4288-90c2-87826c7b5c96",
+          "documentId":"9652c2e9-9f37-4f11-b18f-633c83954b6d",
+          "senderAddress":"127.0.0.1:3002",
+          "receiverAddress":"127.0.0.1:3010",
+          "type":"READY",
+          "createdAt":"2021-06-01T18:07:13.534Z",
+          "documentMap":{
+             "0":[
+                "127.0.0.1:3001",
+                "127.0.0.1:3002"
+             ],
+             "1":[
+                "127.0.0.1:3001",
+                "127.0.0.1:3002"
+             ]
+          }
+       }
+    ],
+    "signs":[
+
+    ],
+    "createdAt":"2021-06-01T17:38:25.259Z",
+    "previousHash":"5cd5a9ea9efb5bcdb5d0066f125f8198a5f5c3119439a6feb99a0415a4566ed1"
+ }
+}
+
+export async function testSignBlock (req: Request, res: Response) {
+  console.log('----Requesting validators to sign block...')
+  const validators = network.validators.map(v => `${v.host}:${v.port}`)
+  const cb = chain.getCurrentBlock()
+  for (let v of validators) {
+    console.log(`Requesting ${v}...`)
+    const response = (await axios.post<{ sign: string, key: number }>(`http://${v}/bc/sign/`, { block: data.block })).data
+    const { sign, key } = response
+    const signParsed = JSON.parse(sign) as ElGamal.Sign
+    console.log(`Received answer from ${v}:`, signParsed, '; key: ', key)
+    const signValid = true
+    console.log(`Validating sign...`, signValid)
+    cb.addSign(new Models.Sign(signParsed, v))
+  }
+  console.log('----All signs received and validated')
+  console.log(cb)
+  const cbHash = cb.getHash()
+  console.log('----Calculating current block hash...', cbHash)
+  console.log('----Adding current block to chain...')
+  chain.addBlock(cb)
+  const newCb = new Models.Block(cbHash)
+  console.log('----Updating current block with...', newCb)
+  chain.setCurrentBlock(newCb)
+  dumpChain(chain)
+  console.log('----Sending updated chain over network...')
+  for (let { host, port } of [...network.nodes, ...network.validators]) {
+    console.log('Sending to', `${host}:${port}`)
+    axios.post(`http://${host}:${port}/bc/chain`, { chain }).catch(_e => {})
+  }
+  console.log('----Chain sent over network...')
+  console.log('************************************************')
+  return
+}

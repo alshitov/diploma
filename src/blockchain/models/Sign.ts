@@ -1,11 +1,12 @@
 import { hexlify } from '../lib'
+import { Sign as ElGamalSign } from '../lib/elgamal/signature'
 
 export class Sign {
-  private readonly sign: string
+  private readonly sign: ElGamalSign | string
   private readonly validatorAddress: string
   private readonly createdAt: Date
 
-  constructor (sign: string, validatorAddress: string) {
+  constructor (sign: ElGamalSign | string, validatorAddress: string) {
     this.sign = sign
     this.validatorAddress = validatorAddress
     this.createdAt = new Date()

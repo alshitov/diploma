@@ -1,3 +1,4 @@
 export * from './encryption'
-export * from './sginature'
+export * from './signature'
 export * from './keygen'
+export * from './utils'

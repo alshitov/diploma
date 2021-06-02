@@ -10,5 +10,13 @@ export async function documentGet (req: Request, res: Response) {
     res.sendStatus(404)
     return
   }
-  res.sendFile(documentPath)
+  try {
+    const document = fs.readFileSync(documentPath, 'utf-8')
+    console.log(`----Sending document with id: ${documentId}`)
+    res.status(200).json({ document })
+  } catch (e) {
+    console.log(e)
+    res.sendStatus(500)
+    return
+  }
 }

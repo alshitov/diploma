@@ -1,9 +1,6 @@
 import { Router } from 'express'
 import { Validator, Node, Share } from '../controllers'
-import multer from 'multer'
-import { isValidator, forbidden } from '../../helpers'
-
-const upload = multer()
+import { isValidator } from '../../helpers'
 
 /**
  * /documents
@@ -15,15 +12,15 @@ const upload = multer()
  * POST /:id
  * store docuement chunk
  *
- * POST /:redirect/:id
+ * POST /prepare/:id
  * -> if validator: redirect document to the next org with all blockchain manip
- * -> if node: send 403
+ * -> if node: do one's work on document and send back
  */
 export const documentsRouter = Router()
 
-documentsRouter.get('/:id', isValidator ? Validator.Documents.documentGet : Node.Documents.documentGet)
-documentsRouter.post('/:id', upload.single('document'), Share.Documents.documentStore)
-documentsRouter.post('/redirect/:id', isValidator
-  ? Validator.Documents.redirectDocument
-  : forbidden
+documentsRouter.get('/:id', isValidator ? Validator.Documents.documentGet : Share.Documents.documentGet)
+documentsRouter.post('/:id', Share.Documents.documentStore)
+documentsRouter.post('/prepare/:id', isValidator
+  ? Validator.Documents.documentPrepare
+  : Node.Documents.documentPrepare
 )

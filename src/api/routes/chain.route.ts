@@ -12,6 +12,8 @@ import { isValidator, forbidden  } from '../../helpers'
  * POST /:id
  * update current blockchain
  *
+ * POST /tx
+ * receive new transaction
  */
 export const chainRouter = Router()
 
@@ -20,3 +22,4 @@ chainRouter.get('/', isValidator
   : forbidden
 )
 chainRouter.post('/', Share.Chain.chainUpdate)
+chainRouter.post('/tx', Share.Chain.txReceive)

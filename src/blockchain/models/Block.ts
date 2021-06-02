@@ -12,11 +12,16 @@ export class Block {
 
   private hash: string | undefined
 
-  constructor (previousHash: string) {
+  constructor (
+    previousHash: string,
+    txs?: Transaction[],
+    signs?: Sign[],
+    createdAt?: Date
+  ) {
     this.version = '0.0.1'
-    this.txs = []
-    this.signs = []
-    this.createdAt = new Date()
+    this.txs = txs ?? []
+    this.signs = signs ?? []
+    this.createdAt = createdAt ?? new Date()
     this.previousHash = previousHash
   }
 

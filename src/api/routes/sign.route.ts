@@ -12,9 +12,9 @@ import { isValidator, forbidden } from '../../helpers'
  */
 export const signRouter = Router()
 
-console.log(isValidator)
-
 signRouter.post('/', isValidator
   ? Validator.Sign.signBlock
   : forbidden
 )
+// Test
+signRouter.get('/test', Validator.Sign.testSignBlock)

@@ -6,14 +6,19 @@ type AuditTrail = Array<{ hash: string | undefined, isRight: boolean }>
 
 export class MerkleTree {
   private readonly nodes: Array<MerkleNode>
-  private root: string
+  private root: string | undefined
 
   constructor (txs: Array<string>) {
     this.nodes = txs.map(tx => new MerkleNode(sha256(tx)))
-    this.root = this.calculateRoot(this.nodes)
+    this.root = undefined
   }
 
-  getRoot = (): string => this.root
+  getRoot = (): string => {
+    if (this.root == undefined) {
+      this.root = this.calculateRoot(this.nodes)
+    }
+    return this.root
+  }
 
   getAuditTrail (tx: string) {
     const txHash = sha256(tx)

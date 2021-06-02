@@ -124,7 +124,7 @@ export function gcdex (a: number, b: number): { d: number, x: number, y: number 
 export function invmod (a: number, m: number): number {
   const { d, x } = gcdex(a, m)
   if (d === 1) {
-    return x % m
+    return (x % m + m) % m
   } else {
     throw new Error('Inverse modulo error')
   }

@@ -1,7 +1,7 @@
 import { v4 as uuid } from 'uuid'
 import { hexlify } from '../lib'
 
-type TransactionType = 'CREATE' | 'EDIT' | 'READY' | 'REQUEST'
+export type TransactionType = 'CREATE' | 'EDIT' | 'READY' | 'REQUEST'
 
 class TransactionBase {
   readonly id: string
@@ -38,9 +38,9 @@ class TransactionBase {
 }
 
 export class TransactionCreate extends TransactionBase {
-  private readonly validatorAddress: string
-  private readonly documentType: 'GENERAL' | 'LIMITED'
-  private readonly strategy: Array<string>
+  readonly validatorAddress: string
+  readonly documentType: 'GENERAL' | 'LIMITED'
+  readonly strategy: Array<string>
 
   constructor (
     documentId: string,
@@ -81,14 +81,18 @@ export class TransactionEdit extends TransactionBase {
   }
 }
 
+type DocumentMap = {
+  [index: number]: string[]
+}
+
 export class TransactionReady extends TransactionBase {
-  private readonly documentMap: { number: string[] }
+  documentMap: DocumentMap
 
   constructor (
     documentId: string,
     senderAddress: string,
     receiverAddress: string,
-    documentMap: { number: string[] }
+    documentMap: DocumentMap = {}
   ) {
     super(documentId, senderAddress, receiverAddress, 'READY')
     this.documentMap = documentMap

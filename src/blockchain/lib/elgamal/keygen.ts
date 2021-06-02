@@ -1,9 +1,13 @@
-import { generatePrimeNumber, findPrimitiveRoot, modpow, getRandomInt } from './utils'
+import { generatePrimeNumber, /* findPrimitiveRoot */ } from './utils'
 
-export type PubK = {
-  y: number
+export type GeneralPubK = {
   g: number
   p: number
+}
+
+export type PubK = {
+  general: GeneralPubK
+  y: number
 }
 
 export type Keypair = {
@@ -11,14 +15,8 @@ export type Keypair = {
   priv: number
 }
 
-export function generateKeys (): Keypair {
+export function generatePublicKey (): GeneralPubK {
   const p = generatePrimeNumber()
-  const g = findPrimitiveRoot(p)
-  const x = getRandomInt(1, p - 1)
-  const y = modpow(g, x, p)
-
-  return {
-    pub: { y, g, p },
-    priv: x
-  }
+  const g = Math.floor(Math.sqrt(p))
+  return { p, g }
 }
