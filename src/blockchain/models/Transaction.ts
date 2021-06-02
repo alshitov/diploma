@@ -15,14 +15,16 @@ class TransactionBase {
     documentId: string,
     senderAddress: string,
     receiverAddress: string,
-    type: TransactionType
+    type: TransactionType,
+    id?: string,
+    createdAt?: Date
   ) {
-    this.id = uuid()
+    this.id = id ?? uuid()
     this.documentId = documentId
     this.senderAddress = senderAddress
     this.receiverAddress = receiverAddress
     this.type = type
-    this.createdAt = new Date()
+    this.createdAt = createdAt ?? new Date()
   }
 
   toHexString (): string {
@@ -48,9 +50,11 @@ export class TransactionCreate extends TransactionBase {
     receiverAddress: string,
     validatorAddress: string,
     documentType: 'GENERAL' | 'LIMITED',
-    strategy: Array<string>
+    strategy: Array<string>,
+    id?: string,
+    createdAt?: Date
   ) {
-    super(documentId, senderAddress, receiverAddress, 'CREATE')
+    super(documentId, senderAddress, receiverAddress, 'CREATE', id, createdAt)
     this.validatorAddress = validatorAddress
     this.documentType = documentType
     this.strategy = strategy
@@ -75,9 +79,11 @@ export class TransactionEdit extends TransactionBase {
   constructor (
     documentId: string,
     senderAddress: string,
-    receiverAddress: string
+    receiverAddress: string,
+    id?: string,
+    createdAt?: Date
   ) {
-    super(documentId, senderAddress, receiverAddress, 'EDIT')
+    super(documentId, senderAddress, receiverAddress, 'EDIT', id, createdAt)
   }
 }
 
@@ -92,9 +98,11 @@ export class TransactionReady extends TransactionBase {
     documentId: string,
     senderAddress: string,
     receiverAddress: string,
-    documentMap: DocumentMap = {}
+    documentMap: DocumentMap = {},
+    id?: string,
+    createdAt?: Date
   ) {
-    super(documentId, senderAddress, receiverAddress, 'READY')
+    super(documentId, senderAddress, receiverAddress, 'READY', id, createdAt)
     this.documentMap = documentMap
   }
 

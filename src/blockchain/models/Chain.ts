@@ -10,17 +10,19 @@ export class Chain {
 
   constructor () {
     this.blocks = []
-    const genesisBlock = new Block('This is my genesis block')
+    const genesisBlock = new Block('This is my genesis block', undefined, undefined, new Date('2021-06-02T12:05:07.101Z'))
     genesisBlock.addTransaction(new TransactionCreate(
       'Genesis document id',
       'Genesis sender address',
       'Genesis receiver address',
       'Genesis validator address',
       'GENERAL',
-      ['Some', 'Genesis', 'Strategy']
+      ['Some', 'Genesis', 'Strategy'],
+      '1f4af26e-03a1-48c8-a01b-51e82ea921a1',
+      new Date('2021-06-02T12:05:07.981Z')
     ))
-    genesisBlock.addSign(new Sign('Genesis block sign', '0.0.0.0:0'))
-    this.currentBlock = new Block(genesisBlock.getHash())
+    genesisBlock.addSign(new Sign('Genesis block sign', '0.0.0.0:0', new Date('2021-06-02T12:05:08.021Z')))
+    this.currentBlock = new Block(genesisBlock.getHash(), undefined, undefined, new Date('2021-06-02T12:05:08.152Z'))
     this.blocks.push(genesisBlock)
   }
 

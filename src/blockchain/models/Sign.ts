@@ -6,10 +6,10 @@ export class Sign {
   private readonly validatorAddress: string
   private readonly createdAt: Date
 
-  constructor (sign: ElGamalSign | string, validatorAddress: string) {
+  constructor (sign: ElGamalSign | string, validatorAddress: string, createdAt?: Date) {
     this.sign = sign
     this.validatorAddress = validatorAddress
-    this.createdAt = new Date()
+    this.createdAt = createdAt ?? new Date()
   }
 
   toHexString (): string {
